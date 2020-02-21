@@ -1,0 +1,224 @@
+\input{xcinput.tex}\documentclass[fleqn,a4paper,12pt]{article}
+\usepackage{ stmaryrd }
+\usepackage{ dsfont }
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{bbding}
+\usepackage{pifont}
+\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{mathtools} 
+\newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}} %{\McQ\cH91}{\MbQ\cH143}{\MaQ\cH113}{\MbQ\cH35}{\MaQ\cH132}{\MfQ\cH178}{\McQ\cH87}{\MaQ\cH223}{\MbQ\cH224}
+\usepackage{textcomp}
+\renewcommand{\baselinestretch}{1.5} % 5 linespace
+%\usepackage{MinionPro} %{\MiQ\cH28}{\MfQ\cH220}{\MiQ\cH116}{\MbQ\cH143}{\MbQ\cH61}{\MbQ\cH224}{\MbQ\cH237}{\McQ\cH76}{\MbQ\cH100}{\MbQ\cH98}{\MaQ\cH229}{\MaQ\cH229}{\McQ\cH241}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{graphicx,psfrag,booktabs}
+\geometry{left=1in,right=1in,top=1in,bottom=1in}
+\usepackage{graphicx}
+\usepackage{titlesec}
+\titlelabel{\thetitle.\quad} %{\MaQ\cH94}{\MbQ\cH90}section {\McQ\cH41}{\McQ\cH85}{\MbQ\cH237}{\MeQ\cH165}{\MdQ\cH168}
+\usepackage{mathrsfs} %{\MaQ\cH139}{\MaQ\cH112}{\McQ\cH73}{\McQ\cH241}{\MaQ\cH229}{\MgQ\cH130}{\MeQ\cH165}{\MdQ\cH168}
+%\usepackage{indentfirst}%{\McQ\cH199}{\McQ\cH229}{\McQ\cH11}{\MaQ\cH115}{\MbQ\cH143}{\MbQ\cH237}{\MbQ\cH78}{\MaQ\cH73}
+\usepackage[square,numbers]{natbib}
+\usepackage{xeCJK} %{\MaQ\cH50}{\MbQ\cH100}{\MaQ\cH229}{\McQ\cH241}{\McQ\cH113}{\MaQ\cH236}
+\setCJKmainfont{SimSun} %{\McQ\cH227}{\McQ\cH113}{\MaQ\cH53}{\MaQ\cH50}{\MbQ\cH100}{\MaQ\cH229}{\McQ\cH241}
+\bibliographystyle{unsrtnat}
+\makeatletter
+\def\@xfootnote[#1]{%
+  \protected@xdef\@thefnmark{#1}%
+  \@footnotemark\@footnotetext}
+\makeatother
+
+\title{Home Work 2\\ Machine Learning Techniques}
+\author{R04323050 \\{\McQ\cH37}\z{\MbQ\cH200}\z{\MmQ\cH238}\z{\McQ\cH250}   \quad {\McQ\cH207}\z{\MdQ\cH43}\z{\MjQ\cH254}}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{} %Q1
+Let $s=-y_{n}\left  [A(\bold w^{T}_{svm} \cdot\phi(\bold x_{n} + b_{svm})+B)  \right ] $, then
+\begin{flalign*}
+&\frac{\partial F}{\partial A} = \frac{1}{N} \displaystyle \sum_{n=1}^{N} \frac{1}{1+e^{s}} \cdot e^{s} \cdot \frac{\partial s}{\partial A} = \frac{1}{N} \sum_{n=1}^{N} \frac{e^{s}}{1+e^{s}} (-y_{n}) z_{n} = \frac{-1}{N} \sum_{n=1}^{N} y_{n} z_{n} p_{n} \\
+&\frac{\partial F}{\partial B} = \frac{1}{N} \sum_{n=1}^{N} \frac{1}{1+e^{s}} \cdot e^{s} \cdot \frac{\partial s}{\partial B} = \frac{1}{N} \sum_{n=1}^{N} \frac{e^{s}}{1+e^{s}} (-y_{n}) = \frac{-1}{N} \sum_{n-=1}^{N} y_{n} p_{n}
+\end{flalign*}
+$ \therefore \; \nabla F(A,B)=\begin{bmatrix}
+\displaystyle \frac{-1}{N} \sum_{n=1}^{N} y_{n} z_{n} p_{n}\\ 
+\displaystyle \frac{-1}{N} \sum_{n-=1}^{N} y_{n} p_{n}
+\end{bmatrix}$
+
+
+
+
+\section{} %Q2
+\begin{flalign*}
+&\frac{\partial^{2} F}{\partial A^{2}} = \frac{1}{N} \sum_{n=1}^{N} -y_{n} \cdot z_{n} \cdot \frac{\partial p_{n}}{\partial A} = \frac{1}{N} \sum_{n=1}^{N} -y_{n} z_{n} p_{n}(1-p_{n})(-y_{n}z_{n}) = \frac{1}{N} \sum_{n=1}^{N} z_{n}^{2} \cdot p_{n} \cdot (1-p_{n})  \\
+&\frac{\partial^{2} F}{\partial A \partial B} = \frac{1}{N} \sum_{n=1}^{N} -y_{n} \cdot z_{n} \cdot \frac{\partial p_{n}}{\partial B} = \frac{1}{N} \sum_{n=1}^{N} -y_{n}z_{n}p_{n}(1-p_{n})(-y_{n}) = \frac{1}{N} \sum_{n=1}^{N} z_{n} \cdot p_{n} \cdot (1-p_{n}) \\
+&\frac{\partial^{2} F}{\partial B \partial A} =  \frac{1}{N} \sum_{n=1}^{N} -y_{n} \cdot \frac{\partial p_{n}}{\partial A} = \frac{1}{N} \sum_{n=1}^{N} -y_{n}p_{n}(1-p_{n})(-y_{n}z_{n}) = \frac{1}{N} \sum_{n=1}^{N} z_{n} \cdot p_{n} \cdot (1-p_{n})  \\
+&\frac{\partial^{2} F}{\partial B^{2}} = \frac{1}{N} \sum_{n=1}^{N} -y_{n} \cdot \frac{\partial p_{n}}{\partial B} = \frac{1}{N} \sum_{n=1}^{N} -y_{n}p_{n}(1-p_{n})(-y_{n}) = \frac{1}{N} \sum_{n=1}^{N} p_{n} \cdot (1-p_{n})   \\
+\end{flalign*}
+$\therefore \; H(F) = \begin{bmatrix}
+\displaystyle \frac{1}{N} \sum_{n=1}^{N} z_{n}^{2} \cdot p_{n} \cdot (1-p_{n})  & \displaystyle  \frac{1}{N} \sum_{n=1}^{N} z_{n} \cdot p_{n} \cdot (1-p_{n})\\ 
+\displaystyle  \frac{1}{N} \sum_{n=1}^{N} z_{n} \cdot p_{n} \cdot (1-p_{n})  & \displaystyle  \frac{1}{N} \sum_{n=1}^{N} p_{n} \cdot (1-p_{n})  
+\end{bmatrix}$
+
+
+
+\section{} %Q3
+Now $K(\bold x, \bold x') = \text{exp}(-\gamma \cdot \left \| \bold x-\bold x' \right \|^2)$. By the exercise in slides in class 3, if $\bold x \neq \bold x'$, $K(\bold x, \bold x') = 0$ when $\gamma \longrightarrow \infty$.\\
+Hence, $\displaystyle \boldsymbol \beta = (\lambda \text{I} + K)^{-1} \bold y = \frac{1}{\lambda} \cdot \bold y$
+
+\section{} %Q4
+\begin{flalign*}
+e_{t} = E_{test}(g_{t}) &= \displaystyle \frac{1}{M} \sum_{m=1}^{M} \left [ (g_{t}(\tilde{x}_{m}))^{2} + \tilde{y}_{m}^{2} - 2 \cdot g_{t}(\tilde{x}_{m}) \cdot \tilde{y}_{m}  \right ] \\
+&= \frac{1}{M} \sum_{m=1}^{M} (g_{t}(\tilde{x}_{m}))^{2} + \frac{1}{M} \sum_{m=1}^{M} (g_{0}-\tilde{y}_{m})^{2} - \frac{2}{M} \sum_{m=1}^{M} g_{t}(\tilde{x}_{m}) \cdot \tilde{y}_{m} \\
+&= s_{t} + e_{0} - \frac{2}{M} \sum_{m=1}^{M} g_{t}(\tilde{x}_{m}) \cdot \tilde{y}_{m} 
+\end{flalign*}
+\begin{flalign*}
+&\Rightarrow \frac{2}{M} \sum_{m=1}^{M} g_{t}(\tilde{x}_{m}) \cdot \tilde{y}_{m} = s_{t} + e_{0} - e_{t} \\
+&\Rightarrow \frac{2}{M} \sum_{m=1}^{M} g_{t}(\tilde{x}_{m}) \cdot \tilde{y}_{m} = \frac{M}{2} \cdot (s_{t}+e_{0}-e_{t})
+\end{flalign*}
+
+\section{} %Q5
+\begin{itemize}
+ \item [step 1.] {\MbQ\cH42}$\mathcal{D}_{train}${\MbQ\cH41}\z{\MaQ\cH131}$g_{1}^{-}, g_{2}^{-} , ... , g_{T}^{-}${\MaQ\cH1}\zZ
+ \item [step 2.] {\MbQ\cH42}$\mathcal{D}_{val}$ {\MbQ\cH237}$\left \{ (\bold x_{n}, y_{n}) \right \}$, {\McQ\cH158}\z{\MfQ\cH178}\z{\McQ\cH66}$\bold z_{n} = \Phi^{-}(\bold x_{n})= (g_{1}^{-}(\bold x), g_{2}^{-}(\bold x), ... , g_{T}^{-}(\bold x))$
+ \item [step 3.] Linear Blending:
+ \begin{itemize}
+  \item [i.] {\MaQ\cH85}\z{\MbQ\cH224} $LinearModel(\bold z_{n}, y_{n})$, {\MbQ\cH41}\z{\MaQ\cH131}$\boldsymbol \alpha=(\alpha_{0}, \alpha_{1}, ... ,\alpha_{T})${\MaQ\cH1}\zZ
+  \item [ii.] {\McQ\cH189}\z{\MbQ\cH104}\z{\MaQ\cH85}\z{\MbQ\cH224}\z{\MbQ\cH70}\z{\MbQ\cH127}\z{\McQ\cH146}\z{\MbQ\cH101}$\mathcal{D}$, {\MbQ\cH41}\z{\MaQ\cH131} $\Phi(\bold x) = (g_{1}(\bold x), g_{2}(\bold x), ... , g_{T}(\bold x))${\MaQ\cH1}\zZ
+  \item [iii.] $G_{LINB}(\bold x) = LinearModel_{\bold w= \bold x}(\Phi(\bold x))$
+  
+  \end{itemize}
+
+\end{itemize}
+
+
+
+
+\section{} %Q6
+{\MaQ\cH99}\z{\McQ\cH113}\z{\MaQ\cH115}\z{\McQ\cH32}\z{\McQ\cH111}\z{\McQ\cH42}\z{\MbQ\cH154}\z{\MbQ\cH133}\z{\MbQ\cH209}:$(x_{1}, 2x_{1}-x_{1}^{2})$
+
+
+
+
+
+
+
+\section{}
+If $\rho_{n}=0.25$ and $\mu_{n}=1$ for all $n$. The dual problem will be:
+\begin{flalign*}
+\displaystyle \min_{\boldsymbol \alpha}\quad \frac{1}{2} \sum_{n=1}^{N}\sum_{m=1}^{N} \alpha_{n}\alpha_{m}y_{n}y_{m}\bold z_{n}^{T}\bold z_{m} - \sum_{n=1}^{N}0.25\alpha_{n} 
+\end{flalign*}
+\begin{flalign*}
+\text{subject to} &\quad \sum_{n=1}^{N}\alpha_{n}y_{n}=0\\
+                         &\quad 0 \leq \alpha_{n} \leq C, \; \text{for} \; n=1,2,\dots N
+\end{flalign*}
+Let $\boldsymbol \alpha'^{*}$ be the solution for $P_{1}'$; $\boldsymbol \alpha^{*}$ be the solution for $P_{1}$. We know the dual problem for $P_{1}$ is:
+\begin{flalign*}
+\displaystyle \min_{\boldsymbol \alpha}\quad \frac{1}{2} \sum_{n=1}^{N}\sum_{m=1}^{N} \alpha_{n}\alpha_{m}y_{n}y_{m}\bold z_{n}^{T}\bold z_{m} - \sum_{n=1}^{N}\alpha_{n} 
+\end{flalign*}
+\begin{flalign*}
+\text{subject to} &\quad \sum_{n=1}^{N}\alpha_{n}y_{n}=0\\
+                         &\quad 0 \leq \alpha_{n} \leq C, \; \text{for} \; n=1,2,\dots N
+\end{flalign*}
+Hence, the optimal $\boldsymbol \alpha^{*} \times 0.25 =\boldsymbol \alpha'^{*}$
+By implicity: $\bold w'^{*}= 0.25 \times \bold w^{*} \Rightarrow \bold w^{*}=4 \bold w^{*}$\\
+Now we can solve for $b'^{*}$ by complementary slackness:
+\begin{flalign*}
+b'^{*}&= y_{s}\rho_{s}-y_{s}\xi_{s}-\bold w'^{T} \bold z_{s} \quad \text{, $s$ denotes as the support vector} \\
+&=0.25y_{s}-y_{s}\xi_{s}-0.25 \bold w^{T} \bold z_{s}\\
+&=0.25b^{*}-0.75y_{s}\xi_{s} \quad \text{, where $b^{*}$ is the solution for $P_{1}$}
+\end{flalign*}
+$\therefore$ \; $b^{*}=4b'^{*}+3y_{s}\xi_{s}$
+
+\section{}
+In the class and slides4 p.10, we know the only difference between hard-margin and soft-margin SVM in dual problem is adding the upper bound $\color{blue}C$ on $\alpha_{n}$ in soft-margin SVM.
+\begin{flalign*}
+\displaystyle \min_{\boldsymbol \alpha}\quad \frac{1}{2} \sum_{n=1}^{N}\sum_{m=1}^{N} \alpha_{n}\alpha_{m}y_{n}y_{m}\bold z_{n}^{T}\bold z_{m} - \sum_{n=1}^{N}\alpha_{n} 
+\end{flalign*}
+\begin{flalign*}
+\text{subject to} &\quad \sum_{n=1}^{N}\alpha_{n}y_{n}=0\\
+                         &\quad 0 \leq \alpha_{n} \leq {\color{blue}C}, \; \text{for} \; n=1,2,\dots N
+\end{flalign*}
+Let $\boldsymbol \alpha^{*}$ be the solution in hard-margin. If we set ${\color{blue}C} \geq \displaystyle \max_{1\leq n\leq N} \alpha_{n}$, then the solution is also optimal in soft-margin problem intuitively.
+
+\section{}
+\begin{itemize}
+ \item [(a).] Let $K_{1}=\begin{bmatrix}
+\frac{4}{5} & \frac{1}{5}\\ 
+\frac{1}{5} & \frac{4}{5}
+\end{bmatrix}$, then $K_=\begin{bmatrix}
+1.2 & 1.8\\ 
+1.8 & 1.2
+\end{bmatrix} \Rightarrow det(K) < 0 $. If the matrix is positive-semidefinite, determinants of all upper left sub-matrices are non-negative.{\huge (\ding{55})}
+
+ \item [(b).] $K(\bold x , \bold x')= \bold I$, let $\bold a$ be any vector in $\mathcal{R}^{n}$, then $\bold a^{T} \bold I \bold a = \bold a^{T} \bold a \geq 0$ {\huge (\ding{51})}
+
+\item [(c).] $K(\bold x, \bold x') = (2-K_{1}(\bold x, \bold x'))^{-1}$. Let $\bold a$ be any vector in $\mathcal{R}^{m}$, then:
+\begin{flalign*}
+ \bold a^T K \; \bold a &= \displaystyle \sum_{i,j=1}^{m} a_{i} \; \frac{1}{2-K_{1}(x_{i}, x_{j})} \; a_{j} = \sum_{i,j=1}^{m} a_{i} \; \frac{K_{1}(x_{i},x_{j})}{\left [2-K_{1}(x_{i}, x_{j}) \right ](K_{1}(x_{i},x_{j}))} \; a_{j}
+ \\ &> \sum_{i,j=1}^{m} a_{i} \; K_{1}(x_{i},x_{j}) \; a_{j} = \bold a^T K_{1} \; \bold a \geq 0 \quad \text{{\huge (\ding{51})}}
+\end{flalign*} 
+
+\item [(d).] $K(\bold x, \bold x') = (2-K_{1}(\bold x, \bold x'))^{-2}$. Let $\bold a$ be any vector in $\mathcal{R}^{m}$, then:
+\begin{flalign*}
+ \bold a^T K \; \bold a &= \displaystyle \sum_{i,j=1}^{m} a_{i} \; \frac{1}{(2-K_{1}(x_{i}, x_{j})) \cdot (2-K_{1}(x_{i}, x_{j}))} \; a_{j} \\ &= \sum_{i,j=1}^{m} a_{i} \; \frac{K_{1}(x_{i},x_{j})}{\left [2-K_{1}(x_{i}, x_{j}) \right ]^{2}(K_{1}(x_{i},x_{j}))} \; a_{j}
+ \\ &> \sum_{i,j=1}^{m} a_{i} \; K_{1}(x_{i},x_{j}) \; a_{j} = \bold a^T K_{1} \; \bold a \geq 0 \quad \text{{\huge (\ding{51})}}
+\end{flalign*} 
+\end{itemize}
+
+\section{}
+By the slides in class 3, we know:
+\begin{flalign*}
+ g_{svm}(\bold x)&= sign(\displaystyle \sum_{\text{SV indices n}} \alpha_{n} y_{n} K(\bold x_{n}, \bold x) +b) \\ &= c \\& \text{$s$ denotes as the support vector.}
+\end{flalign*} 
+Now we are using $\tilde{K}=p\cdot K(\bold x, \bold x')$. To make the result same, we then let $\alpha'_{n}=\frac{\alpha_{n}}{p}$ and $\tilde{C}=\frac{C}{p}$, we can solve the dual problem based on $\tilde{K}, \alpha_{n}'$ and $\tilde{C}$:
+\begin{flalign*}
+\displaystyle \min_{\boldsymbol \alpha}\quad \frac{1}{2} \sum_{n=1}^{N}\sum_{m=1}^{N} \alpha'_{n}\alpha'_{m}y_{n}y_{m} \tilde{K} - \sum_{n=1}^{N}\alpha'_{n} 
+\end{flalign*}
+\begin{flalign*}
+\text{subject to} &\quad \sum_{n=1}^{N}\alpha'_{n}y_{n}=0\\
+                         &\quad 0 \leq \alpha'_{n} \leq \tilde{C}, \; \text{for} \; n=1,2,\dots N
+\end{flalign*}
+the we know the optimal separating hyperplane will be:
+\begin{flalign*}
+ g_{svm}(\bold x)&= sign(\displaystyle \sum_{\text{SV}} \alpha'_{n} y_{n} \tilde{K}(\bold x_{n}, \bold x) +b) \\ &= sign(\displaystyle \sum_{\text{SV}} \alpha'_{n} y_{n} \tilde{K}(\bold x_{n}, \bold x) + y_{s} -\sum_{\text{SV}} \alpha'_{n} y_{n} \tilde{K}(\bold x_{n}, \bold x_{s})) \\
+ &= sign(\displaystyle \sum_{\text{SV}} \frac{\alpha_{n}}{p} y_{n} p\cdot K(\bold x_{n}, \bold x) + y_{s} -\sum_{\text{SV}} \frac{\alpha_{n}}{p} y_{n} p\cdot K(\bold x_{n}, \bold x_{s}))\\
+ &= sign(\displaystyle \sum_{\text{SV}} \alpha_{n} y_{n} K(\bold x_{n}, \bold x) + y_{s} -\sum_{\text{SV}} \alpha_{n} y_{n} K(\bold x_{n}, \bold x_{s}))\\
+ & \text{, which is equivalent to the solution of original problem.}
+ \end{flalign*} 
+
+
+
+\section{}
+The optimal kernel SVM solution is: $\bold w = \displaystyle \sum_{n=1}^{N} \alpha_{n} y_{n} \bold z_{n}$, for those constant feature component $z_{i}$=c \; :
+\begin{flalign*}
+\displaystyle \sum_{n=1}^{N} \alpha_{n}y_{n}z_{i}= c \cdot \sum_{n=1}^{N} \alpha_{n}y_{n}=0
+\end{flalign*} 
+{\MbQ\cH242}\z{\McQ\cH104}:Constant features will be capture in $b^{*}$, which is the intercept term. Unlike what we've learned in PLA, we do not stack up the intercept term.
+
+\section{}
+Let $\lambda$ be the Lagrange multiplier for constraint $\bold w^{T} \bold w \leq C$, then the Lagrange dual problem will be:
+\begin{flalign*}
+\displaystyle \min_{\bold w, \lambda} \quad \frac{1}{N} \sum_{n=1}^{N} (y_{n}- \bold w^{T}  \bold  x_{n})^{2} + \lambda (\bold w^{T} \bold w -C) \text{, which is a convex problem by slides in class 2.}
+\end{flalign*}
+f.o.c.
+\begin{flalign*}
+&\frac{\partial \mathcal{L}}{\partial \bold w}: \frac{2}{N}\sum(y_{n}-\bold w^{T}\bold x_{n})(-\bold x_{n}) + 2\lambda \bold w =0 \Rightarrow \sum(y_{n}-\bold w^{T}\bold x_{n})(-\bold x_{n})=N\lambda \bold w- \textcircled{1} \\
+&\frac{\partial \mathcal{L}}{\partial \lambda}: \bold w^{T} \bold w - C=0 - \textcircled{2}
+\end{flalign*}
+Transform $\textcircled{1}$ condition to the matrix form:
+\begin{flalign*}
+  \bold x^{T} \bold y - \bold x^{T} \bold X \bold w = N \lambda \bold w &\Rightarrow \bold x^{T} \bold y = \bold x^{T} \bold x \bold w + N \lambda \bold w = (\bold x^{T} \bold x +N \lambda \bold I_{k}) \bold w \\ &\Rightarrow \bold w^{*} = (\bold w^{T} \bold w + N \lambda \bold I_{k})^{-1} \bold x^{T} \bold y
+\end{flalign*}
+
+
+
+\medskip
+
+
+
+\end{document}

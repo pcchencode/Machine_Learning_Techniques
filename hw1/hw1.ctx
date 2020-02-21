@@ -1,0 +1,288 @@
+\documentclass[fleqn,a4paper,12pt]{article}
+\usepackage{ stmaryrd }
+\usepackage{ dsfont }
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{bbding}
+\usepackage{pifont}
+\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{mathtools} 
+\newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}} %表格內強制換行好用
+\usepackage{textcomp}
+\renewcommand{\baselinestretch}{1.5} % 5 linespace
+%\usepackage{MinionPro} %聰敏葛格愛用的英文數字字體
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{graphicx,psfrag,booktabs}
+\geometry{left=1in,right=1in,top=1in,bottom=1in}
+\usepackage{graphicx}
+\usepackage{titlesec}
+\titlelabel{\thetitle.\quad} %修改section 編號的封包
+\usepackage{mathrsfs} %加入花體字母封包
+%\usepackage{indentfirst}%開頭空兩格的指令
+\usepackage[square,numbers]{natbib}
+\usepackage{xeCJK} %中文字體設定
+\setCJKmainfont{SimSun} %預設之中文字體
+\bibliographystyle{unsrtnat}
+\makeatletter
+\def\@xfootnote[#1]{%
+  \protected@xdef\@thefnmark{#1}%
+  \@footnotemark\@footnotetext}
+\makeatother
+
+\title{Home Work 1\\ Machine Learning Techniques}
+\author{R04323050 \\經濟碩三   \quad 陳伯駒}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{}
+  \begin{minipage}{\linewidth}
+      \begin{minipage}{0.4\linewidth}
+\raggedright
+   $(\phi_{1}(\bold x_{1}), \phi_{2}(\bold x_{1}))=(-2,0) \Longrightarrow "\times"$ \\
+   $(\phi_{1}(\bold x_{2}), \phi_{2}(\bold x_{2}))=(4,3) \Longrightarrow "\times"$ \\
+   $(\phi_{1}(\bold x_{3}), \phi_{2}(\bold x_{3}))=(4,1) \Longrightarrow "\times"$ \\
+   $(\phi_{1}(\bold x_{4}), \phi_{2}(\bold x_{4}))=(6,0) \Longrightarrow "\circ"$ \\
+   $(\phi_{1}(\bold x_{5}), \phi_{2}(\bold x_{5}))=(10,-5) \Longrightarrow "\circ"$ \\
+   $(\phi_{1}(\bold x_{6}), \phi_{2}(\bold x_{6}))=(10,3) \Longrightarrow "\circ"$ \\
+   $(\phi_{1}(\bold x_{7}), \phi_{2}(\bold x_{7}))=(10,3) \Longrightarrow "\circ"$ \\
+     
+   \end{minipage}
+      \hspace{0.05\linewidth}
+      \begin{minipage}{0.6\linewidth}
+ 
+      \includegraphics[scale=0.7]{Q1.png}
+      \end{minipage}
+  \end{minipage}
+Pictorially, the optimal separating hyperplane is the equation: $z_{1}=5$。
+
+\section{}
+By implementing the $\mathsf{sklearn.svm}$ package in $\mathsf{python}$:\\
+$\boldsymbol \alpha = (-0.21970141 ,-0.28015714  ,0.33323258  ,0.06819373  ,0.09843225)$\\
+$\bold b = -1.66633495$。 Support Vector indices: $\left [ 1,2,3,4,5 \right ] = \left \{ \bold x_{2}, \bold x_{3}, \bold x_{4}, \bold x_{5}, \bold x_{6} \right \}$。
+
+\section{}
+The optimal separating hyperplane:
+\begin{flalign*}
+g_{svm}(\bold x)&= \displaystyle \sum_{\text{SV indices n}} sign(\alpha_{n} y_{n} K(\bold x_{n}, \bold x) + \bold b) \\ &= -0.219 \cdot (-1) \cdot (1+2x_{2})^{2} - 0.28 \cdot (-1) \cdot (1-2x_{2})^{2} + 0.333 \cdot 1 \cdot (1-2x_{2})^{2} \\
+&+ 0.068 \cdot 1 \cdot (1+4x_{2})^{2} + 0.098 \cdot 1 \cdot (1-4x_{2})^{2} - 1.66 \\
+&= 0.219 \cdot (1+2x_{2})^{2} +0.28 \cdot (1-2x_{2})^{2} + 0.333 \cdot (1-2x_{})^{2} + 0.068 \cdot (1+4x_{2})^{2} \\
+&+ 0.098 \cdot (1-4x_{2})^{2} -1.66
+\end{flalign*}
+
+\section{}
+$\bold \mathbb{K}(\bold x, \bold x')$所對應到的$z$-space為：$(1, 2x_{1}, 2x_{2}, 2x_{1}^{2}, 2x_{2}^{2})$。\\
+明顯地與第一題對應到的$z-$space：$(2x_{2}^{2}-4x_{1}+2, x_{1}^{2}-2x_{2}-1)$不同，因此推導出的hyperplane顯然會不一樣。
+
+\section{}
+Let $\alpha_{n}$ be the Largrange multuplier for constraint $y_{n}(\bold w^{T}\bold x_{n} +b) \geq \rho_{n} - \xi_{n} $ and $\beta_{n}$ is for the constraint $\xi_{n} \geq 0$, then the primal problem will be:\\
+\begin{flalign*}
+\displaystyle \min_{\bold b,\bold w, \boldsymbol \xi}  \; \displaystyle \max_{\alpha_{n}>0, \beta_{n}>0}   \; \mathcal{L}( (b, \bold w, \bold \xi), \boldsymbol \alpha, \boldsymbol \beta )  &=  \frac{1}{2}\bold w^{T}\bold{w}+C \sum_{n=1}^{N} \mu_{n} \xi_{n} + \sum_{n=1}^{N} \alpha_{n}(\rho_{n}-\xi_{n}-y_{n}(\bold w^{T}\bold x_{n}+b))\\
+&+ \sum_{n=1}^{N} \beta_{n}\cdot (-\xi_{n})
+\end{flalign*}
+First, we simplify $\beta_{n}$ by taking the derivative of $\xi_{n}$:
+
+\begin{flalign*}
+\frac{\partial \mathcal{L}}{\partial \xi_{n}}: C \cdot \mu_{n}-\alpha_{n}-\beta_{n}=0 \Longrightarrow\left\{\begin{matrix}
+\text{implicit constraint:}\quad \beta_{n}=C\cdot\mu_{n}-\alpha_{n} 
+\\ 
+\text{explicit constraint:}\quad 0 \leq \alpha_{n} \leq C \cdot \mu_{n}
+\end{matrix}\right.
+\end{flalign*}
+then we can rewrite the problem as:
+\begin{flalign*}
+\displaystyle \min_{\bold b,\bold w, \boldsymbol \xi}  \; \displaystyle \max_{\substack{ 0 \leq \alpha_{n} \leq C \cdot \mu_{n}\\ \beta_{n}=C\cdot\mu_{n}-\alpha_{n}}  }  \;  \frac{1}{2}\bold w^{T}\bold{w}+C \sum_{n=1}^{N} \mu_{n} \xi_{n} &+ \sum_{n=1}^{N} \alpha_{n}(\rho_{n}-\xi_{n}-y_{n}(\bold w^{T}\bold x_{n}+b))\\ &+ \sum_{n=1}^{N}  (C\cdot \mu_{n}-\alpha_{n}) \cdot (-\xi_{n})
+\end{flalign*}
+\begin{flalign*}
+\therefore \; \displaystyle \mathcal{L}( (b, \bold w, \bold \xi), \boldsymbol \alpha)= \frac{1}{2}\bold w^{T}\bold{w}+C \sum_{n=1}^{N} \mu_{n} \xi_{n} &+ \sum_{n=1}^{N} \alpha_{n}(\rho_{n}-\xi_{n}-y_{n}(\bold w^{T}\bold x_{n}+b)) \\ &+ \sum_{n=1}^{N}  (C\cdot \mu_{n}-\alpha_{n}) \cdot (-\xi_{n})
+\end{flalign*}
+
+\section{}
+By strong duality, the solution would be same as:
+\begin{flalign*}
+\displaystyle  \displaystyle \max_{\substack{ 0 \leq \alpha_{n} \leq C \cdot \mu_{n}\\ \beta_{n}=C\cdot\mu_{n}-\alpha_{n}}  }  \; \min_{\bold b,\bold w, \boldsymbol \xi} \;  \frac{1}{2}\bold w^{T}\bold{w}+C \sum_{n=1}^{N} \mu_{n} \xi_{n} &+ \sum_{n=1}^{N} \alpha_{n}(\rho_{n}-\xi_{n}-y_{n}(\bold w^{T}\bold x_{n}+b))\\ &+ \sum_{n=1}^{N}  (C\cdot \mu_{n}-\alpha_{n}) \cdot (-\xi_{n})
+\end{flalign*}
+Now we simplify the $\xi_{n}$:
+\begin{flalign*}
+\displaystyle  \displaystyle \max_{\substack{ 0 \leq \alpha_{n} \leq C \cdot \mu_{n}\\ \beta_{n}=C\cdot\mu_{n}-\alpha_{n}}  }  \; \min_{\bold b,\bold w} \;  \frac{1}{2}\bold w^{T}\bold{w}+C \sum_{n=1}^{N} \mu_{n} \xi_{n} + \sum_{n=1}^{N} \alpha_{n}(\rho_{n}-y_{n}(\bold w^{T}\bold x_{n}+b))) \equiv \mathcal{L}( (b, \bold w, \bold \xi), \boldsymbol \alpha )
+\end{flalign*}
+which is the inner problem same as hard-margin SVM:
+\begin{flalign*}
+\frac{\partial \mathcal{L}}{\partial b}=0 \Rightarrow \text{no loss of optimality if solving with constraint}: \; \sum_{n=1}^{N} \alpha_{n} y_{n}=0. \\
+\frac{\partial \mathcal{L}}{\partial w_{i}}=0\Rightarrow \text{no loss of optimality if solving with constraint}: \; \bold w = \sum_{n=1}^{N}\alpha_{n}y_{n} \bold z_{n}. \\
+\end{flalign*}
+Hence, by the KKT conditions and Complementary Slackness, the dual problem will be:
+\begin{flalign*}
+\displaystyle \min_{\boldsymbol \alpha}\quad \frac{1}{2} \sum_{n=1}^{N}\sum_{m=1}^{N} \alpha_{n}\alpha_{m}y_{n}y_{m}\bold z_{n}^{T}\bold z_{m} - \sum_{n=1}^{N}\rho_{n}\alpha_{n} 
+\end{flalign*}
+\begin{flalign*}
+\text{subject to} &\quad \sum_{n=1}^{N}\alpha_{n}y_{n}=0\\
+                         &\quad 0 \leq \alpha_{n} \leq C\cdot \mu_{n}, \; \text{for} \; n=1,2,\dots N
+\end{flalign*}
+\begin{flalign*}
+\text{implicity} &\quad \displaystyle \bold w=\sum_{n=1}^{N} \alpha_{n}y_{n}\bold z_{n} \\
+                       &\quad \beta_{n} = C \cdot \mu_{n}-\alpha_{n}, \; \text{for} \; n=1,2,\dots N 
+\end{flalign*}
+
+\section{}
+If $\rho_{n}=0.25$ and $\mu_{n}=1$ for all $n$. The dual problem will be:
+\begin{flalign*}
+\displaystyle \min_{\boldsymbol \alpha}\quad \frac{1}{2} \sum_{n=1}^{N}\sum_{m=1}^{N} \alpha_{n}\alpha_{m}y_{n}y_{m}\bold z_{n}^{T}\bold z_{m} - \sum_{n=1}^{N}0.25\alpha_{n} 
+\end{flalign*}
+\begin{flalign*}
+\text{subject to} &\quad \sum_{n=1}^{N}\alpha_{n}y_{n}=0\\
+                         &\quad 0 \leq \alpha_{n} \leq C, \; \text{for} \; n=1,2,\dots N
+\end{flalign*}
+Let $\boldsymbol \alpha'^{*}$ be the solution for $P_{1}'$; $\boldsymbol \alpha^{*}$ be the solution for $P_{1}$. We know the dual problem for $P_{1}$ is:
+\begin{flalign*}
+\displaystyle \min_{\boldsymbol \alpha}\quad \frac{1}{2} \sum_{n=1}^{N}\sum_{m=1}^{N} \alpha_{n}\alpha_{m}y_{n}y_{m}\bold z_{n}^{T}\bold z_{m} - \sum_{n=1}^{N}\alpha_{n} 
+\end{flalign*}
+\begin{flalign*}
+\text{subject to} &\quad \sum_{n=1}^{N}\alpha_{n}y_{n}=0\\
+                         &\quad 0 \leq \alpha_{n} \leq C, \; \text{for} \; n=1,2,\dots N
+\end{flalign*}
+Hence, the optimal $\boldsymbol \alpha^{*} \times 0.25 =\boldsymbol \alpha'^{*}$
+By implicity: $\bold w'^{*}= 0.25 \times \bold w^{*} \Rightarrow \bold w^{*}=4 \bold w^{*}$\\
+Now we can solve for $b'^{*}$ by complementary slackness:
+\begin{flalign*}
+b'^{*}&= y_{s}\rho_{s}-y_{s}\xi_{s}-\bold w'^{T} \bold z_{s} \quad \text{, $s$ denotes as the support vector} \\
+&=0.25y_{s}-y_{s}\xi_{s}-0.25 \bold w^{T} \bold z_{s}\\
+&=0.25b^{*}-0.75y_{s}\xi_{s} \quad \text{, where $b^{*}$ is the solution for $P_{1}$}
+\end{flalign*}
+$\therefore$ \; $b^{*}=4b'^{*}+3y_{s}\xi_{s}$
+
+\section{}
+In the class and slides4 p.10, we know the only difference between hard-margin and soft-margin SVM in dual problem is adding the upper bound $\color{blue}C$ on $\alpha_{n}$ in soft-margin SVM.
+\begin{flalign*}
+\displaystyle \min_{\boldsymbol \alpha}\quad \frac{1}{2} \sum_{n=1}^{N}\sum_{m=1}^{N} \alpha_{n}\alpha_{m}y_{n}y_{m}\bold z_{n}^{T}\bold z_{m} - \sum_{n=1}^{N}\alpha_{n} 
+\end{flalign*}
+\begin{flalign*}
+\text{subject to} &\quad \sum_{n=1}^{N}\alpha_{n}y_{n}=0\\
+                         &\quad 0 \leq \alpha_{n} \leq {\color{blue}C}, \; \text{for} \; n=1,2,\dots N
+\end{flalign*}
+Let $\boldsymbol \alpha^{*}$ be the solution in hard-margin. If we set ${\color{blue}C} \geq \displaystyle \max_{1\leq n\leq N} \alpha_{n}$, then the solution is also optimal in soft-margin problem intuitively.
+
+\section{}
+\begin{itemize}
+ \item [(a).] Let $K_{1}=\begin{bmatrix}
+\frac{4}{5} & \frac{1}{5}\\ 
+\frac{1}{5} & \frac{4}{5}
+\end{bmatrix}$, then $K_=\begin{bmatrix}
+1.2 & 1.8\\ 
+1.8 & 1.2
+\end{bmatrix} \Rightarrow det(K) < 0 $. If the matrix is positive-semidefinite, determinants of all upper left sub-matrices are non-negative.{\huge (\ding{55})}
+
+ \item [(b).] $K(\bold x , \bold x')= \bold I$, let $\bold a$ be any vector in $\mathcal{R}^{n}$, then $\bold a^{T} \bold I \bold a = \bold a^{T} \bold a \geq 0$ {\huge (\ding{51})}
+
+\item [(c).] $K(\bold x, \bold x') = (2-K_{1}(\bold x, \bold x'))^{-1}$. Let $\bold a$ be any vector in $\mathcal{R}^{m}$, then:
+\begin{flalign*}
+ \bold a^T K \; \bold a &= \displaystyle \sum_{i,j=1}^{m} a_{i} \; \frac{1}{2-K_{1}(x_{i}, x_{j})} \; a_{j} = \sum_{i,j=1}^{m} a_{i} \; \frac{K_{1}(x_{i},x_{j})}{\left [2-K_{1}(x_{i}, x_{j}) \right ](K_{1}(x_{i},x_{j}))} \; a_{j}
+ \\ &> \sum_{i,j=1}^{m} a_{i} \; K_{1}(x_{i},x_{j}) \; a_{j} = \bold a^T K_{1} \; \bold a \geq 0 \quad \text{{\huge (\ding{51})}}
+\end{flalign*} 
+
+\item [(d).] $K(\bold x, \bold x') = (2-K_{1}(\bold x, \bold x'))^{-2}$. Let $\bold a$ be any vector in $\mathcal{R}^{m}$, then:
+\begin{flalign*}
+ \bold a^T K \; \bold a &= \displaystyle \sum_{i,j=1}^{m} a_{i} \; \frac{1}{(2-K_{1}(x_{i}, x_{j})) \cdot (2-K_{1}(x_{i}, x_{j}))} \; a_{j} \\ &= \sum_{i,j=1}^{m} a_{i} \; \frac{K_{1}(x_{i},x_{j})}{\left [2-K_{1}(x_{i}, x_{j}) \right ]^{2}(K_{1}(x_{i},x_{j}))} \; a_{j}
+ \\ &> \sum_{i,j=1}^{m} a_{i} \; K_{1}(x_{i},x_{j}) \; a_{j} = \bold a^T K_{1} \; \bold a \geq 0 \quad \text{{\huge (\ding{51})}}
+\end{flalign*} 
+\end{itemize}
+
+\section{}
+By the slides in class 3, we know:
+\begin{flalign*}
+ g_{svm}(\bold x)&= sign(\displaystyle \sum_{\text{SV indices n}} \alpha_{n} y_{n} K(\bold x_{n}, \bold x) +b) \\ &= c \\& \text{$s$ denotes as the support vector.}
+\end{flalign*} 
+Now we are using $\tilde{K}=p\cdot K(\bold x, \bold x')$. To make the result same, we then let $\alpha'_{n}=\frac{\alpha_{n}}{p}$ and $\tilde{C}=\frac{C}{p}$, we can solve the dual problem based on $\tilde{K}, \alpha_{n}'$ and $\tilde{C}$:
+\begin{flalign*}
+\displaystyle \min_{\boldsymbol \alpha}\quad \frac{1}{2} \sum_{n=1}^{N}\sum_{m=1}^{N} \alpha'_{n}\alpha'_{m}y_{n}y_{m} \tilde{K} - \sum_{n=1}^{N}\alpha'_{n} 
+\end{flalign*}
+\begin{flalign*}
+\text{subject to} &\quad \sum_{n=1}^{N}\alpha'_{n}y_{n}=0\\
+                         &\quad 0 \leq \alpha'_{n} \leq \tilde{C}, \; \text{for} \; n=1,2,\dots N
+\end{flalign*}
+the we know the optimal separating hyperplane will be:
+\begin{flalign*}
+ g_{svm}(\bold x)&= sign(\displaystyle \sum_{\text{SV}} \alpha'_{n} y_{n} \tilde{K}(\bold x_{n}, \bold x) +b) \\ &= sign(\displaystyle \sum_{\text{SV}} \alpha'_{n} y_{n} \tilde{K}(\bold x_{n}, \bold x) + y_{s} -\sum_{\text{SV}} \alpha'_{n} y_{n} \tilde{K}(\bold x_{n}, \bold x_{s})) \\
+ &= sign(\displaystyle \sum_{\text{SV}} \frac{\alpha_{n}}{p} y_{n} p\cdot K(\bold x_{n}, \bold x) + y_{s} -\sum_{\text{SV}} \frac{\alpha_{n}}{p} y_{n} p\cdot K(\bold x_{n}, \bold x_{s}))\\
+ &= sign(\displaystyle \sum_{\text{SV}} \alpha_{n} y_{n} K(\bold x_{n}, \bold x) + y_{s} -\sum_{\text{SV}} \alpha_{n} y_{n} K(\bold x_{n}, \bold x_{s}))\\
+ & \text{, which is equivalent to the solution of original problem.}
+ \end{flalign*} 
+
+\newpage 
+\section{} %11
+隨著$C$的提升，$\bold w$的長度會越來越長。如下圖：
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.9]{Q11.png}
+\end{figure}
+
+\section{} %12
+隨著$C$的提升，$E_{in}$維持不變。如下圖：
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.9]{Q12.png}
+\end{figure}
+
+\section{} %13
+在$C=0.1$時，有optimal \# of support vectors$=1729$
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.9]{Q13.png}
+\end{figure}
+
+\section{} %14
+If we choose any free support vector, and compute its distance to separating hyperplane. By the slides in class 1, we know in the primal hard-margin SVM, the distance would be $dist( z, b, \bold w)=\frac{1}{\left \| \bold w \right \|} \left | \bold w^{T} z +b \right |$. Hence, the distance is tend to decrease as $C$ increases due to the increment of $\left \| \bold w \right \|$.
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.78]{Q14.png}
+\end{figure}
+
+\section{} %15
+隨著$\gamma$增加、$E_{out}$先降後升，並在$\gamma=10$時達到最小值。
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.9]{Q15.png}
+\end{figure}
+
+\section{} %16
+隨著$\gamma$增加、$E_{val}$先降後升，並在$\gamma=10$時達到最小值，與我們所期待的結果相符合(透過validation選擇的$\gamma$也能使$E_{out}$極小)
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.9]{Q16.png}
+\end{figure}
+
+
+
+
+\section{}
+The optimal kernel SVM solution is: $\bold w = \displaystyle \sum_{n=1}^{N} \alpha_{n} y_{n} \bold z_{n}$, for those constant feature component $z_{i}$=c \; :
+\begin{flalign*}
+\displaystyle \sum_{n=1}^{N} \alpha_{n}y_{n}z_{i}= c \cdot \sum_{n=1}^{N} \alpha_{n}y_{n}=0
+\end{flalign*} 
+直觀：Constant features will be capture in $b^{*}$, which is the intercept term. Unlike what we've learned in PLA, we do not stack up the intercept term.
+
+\section{}
+Let $\lambda$ be the Lagrange multiplier for constraint $\bold w^{T} \bold w \leq C$, then the Lagrange dual problem will be:
+\begin{flalign*}
+\displaystyle \min_{\bold w, \lambda} \quad \frac{1}{N} \sum_{n=1}^{N} (y_{n}- \bold w^{T}  \bold  x_{n})^{2} + \lambda (\bold w^{T} \bold w -C) \text{, which is a convex problem by slides in class 2.}
+\end{flalign*}
+f.o.c.
+\begin{flalign*}
+&\frac{\partial \mathcal{L}}{\partial \bold w}: \frac{2}{N}\sum(y_{n}-\bold w^{T}\bold x_{n})(-\bold x_{n}) + 2\lambda \bold w =0 \Rightarrow \sum(y_{n}-\bold w^{T}\bold x_{n})(-\bold x_{n})=N\lambda \bold w- \textcircled{1} \\
+&\frac{\partial \mathcal{L}}{\partial \lambda}: \bold w^{T} \bold w - C=0 - \textcircled{2}
+\end{flalign*}
+Transform $\textcircled{1}$ condition to the matrix form:
+\begin{flalign*}
+  \bold x^{T} \bold y - \bold x^{T} \bold X \bold w = N \lambda \bold w &\Rightarrow \bold x^{T} \bold y = \bold x^{T} \bold x \bold w + N \lambda \bold w = (\bold x^{T} \bold x +N \lambda \bold I_{k}) \bold w \\ &\Rightarrow \bold w^{*} = (\bold w^{T} \bold w + N \lambda \bold I_{k})^{-1} \bold x^{T} \bold y
+\end{flalign*}
+
+
+
+\medskip
+
+
+
+\end{document}

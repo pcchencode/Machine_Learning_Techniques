@@ -1,0 +1,294 @@
+\documentclass[fleqn,a4paper,12pt]{article}
+\usepackage{ stmaryrd }
+\usepackage{ dsfont }
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{bbding}
+\usepackage{pifont}
+\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{mathtools} 
+\newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}} %表格內強制換行好用
+\usepackage{textcomp}
+\renewcommand{\baselinestretch}{1.5} % 5 linespace
+%\usepackage{MinionPro} %聰敏葛格愛用的英文數字字體
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{graphicx,psfrag,booktabs}
+\geometry{left=1in,right=1in,top=1in,bottom=1in}
+\usepackage{graphicx}
+\usepackage{titlesec}
+\titlelabel{\thetitle.\quad} %修改section 編號的封包
+\usepackage{mathrsfs} %加入花體字母封包
+%\usepackage{indentfirst}%開頭空兩格的指令
+\usepackage[square,numbers]{natbib}
+\usepackage{xeCJK} %中文字體設定
+\setCJKmainfont{SimSun} %預設之中文字體
+\bibliographystyle{unsrtnat}
+\makeatletter
+\def\@xfootnote[#1]{%
+  \protected@xdef\@thefnmark{#1}%
+  \@footnotemark\@footnotetext}
+\makeatother
+
+\title{Home Work 3\\ Machine Learning Techniques}
+\author{R04323050 \\經濟碩三   \quad 陳伯駒}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{} %Q1
+$1-\mu_{+}^{2}-\mu_{-}^{2} = 1- \mu_{+}^{2} - (1-\mu_{+})^2 = -2 \mu_{+}^{2}+2\mu_{+}$
+\begin{flalign*}
+&f.o.c. \quad \frac{\partial Gini}{\partial \mu_{+}} = -4\mu_{+}+2=0 \Rightarrow \mu_{+}^{*}=\frac{1}{2}
+ \\
+&s.o.c. \quad \frac{\partial^{2} Gini}{\partial \mu_{+}^{2}} = -4 < 0
+\end{flalign*}
+因此，$\mu_{+}=\frac{1}{2}=\mu_{-}$時、有最大值$Gini=\displaystyle \frac{1}{2}$。
+
+
+
+
+\section{} %Q2
+By definition, the normalized Gini index in problem 1 would be:
+
+\begin{flalign*}
+\frac{1-\mu_{+}^{2}-\mu_{-}^{2}}{\frac{1}{2}} &=2-2\mu_{+}^{2}-2\mu_{-}^{2}= 2-2\mu_{+}^{2}-2(1-\mu_{})  \\
+&= 2-2\mu_{+}^{2}-2+4\mu_{+}-2\mu_{+}^{2} = -4\mu_{+}^{2}+4\mu_{+}\\
+&= 4\mu_{+} \cdot (1-\mu_{+}) 
+\end{flalign*}
+
+\begin{itemize}
+ \item [(a).]  Normalized: $2 \cdot min\left \{ \mu_{+}, \mu_{-} \right \}=4\mu_{+}(1-\mu_{+})${\huge (\ding{55})}
+
+ \item [(b).] 原式$=\mu_{+}(2-\mu_{+})^{2}+(1-\mu_{+})=4(1-\mu_{+})(1-\mu_{+}+\mu_{+})=4\mu_{+}(1-\mu_{+})$  {\huge (\ding{51})}
+ 
+ \item [(c).] 原式$=-\mu_{+}\cdot ln(\mu_{+}) -(1-\mu_{+})\cdot ln(\mu_{+})${\huge (\ding{55})}
+
+
+\item [(d).] 原式$=1-\left | \mu_{+}(1-\mu_{+}) \right | = 1 - \left | 2\mu_{+}+1 \right |${\huge (\ding{55})}
+\end{itemize}
+
+
+
+
+\section{} %Q3
+在$N$個樣本中、bootstrap出$p \cdot N$個、而每一個樣本沒有被取到的機率皆為$1-\frac{1}{N}$。\\
+$\therefore$ 對某一個樣本而言、bootstrap $N'=p \cdot N$次、都沒有被取到的機率為：
+\begin{flalign*}
+\lim_{N \rightarrow \infty } (1-\frac{1}{N})^{pN}=\left [ \lim_{N \rightarrow \infty } (1-\frac{1}{N})^{N} \right ]^{p}=e^{-p}
+\end{flalign*}
+$\therefore$ Totally and approximately $N \cdot e^{-p}$ of the examples will not be sampled at all.
+
+
+
+
+
+\section{} %Q4
+在一個含有$K$個二元分類樹$\left \{ g_{k} \right \}_{k=1}^{K}$的隨機森林$G$，若有一個點被隨機森林最終歸類錯誤、則至少平均有$\frac{K+1}{2}$個分類樹將其分類錯誤，而每顆分類樹的錯誤次數皆為$e_{k}$。因此總地而言、有$\sum_{k=1}^{K} e_{k}$個錯誤。\\
+所以在最極端的情況，存在$\frac{\sum_{k=1}^K e_{k}}{\frac{1}{2}}=\frac{2}{K+1} \cdot \sum_{k=1}^{K} e_{k}$個錯誤點。$\therefore E_{out}(G) \leq \frac{2}{K+1} \cdot \sum_{k=1}^{K} e_{k}$
+
+
+\section{} %Q5
+已知$g_{1}(x)=2$，根據第11講投影片、p.17，optimal $\alpha_{1} \rightarrow \eta$:
+\begin{flalign*}
+\underset{\eta}{min} \frac{1}{N} \sum_{n=1}^{N} \left [ (y_{n}-s_{n}^{(0)} - \eta g_{1}(\bold x_{n})) \right ]^{2}=\frac{1}{N} \sum_{n=1}^{N} (y_{n}-2\eta)^{2} \\
+\frac{\partial E}{\partial \eta} =0 \Rightarrow \frac{1}{N} \sum_{n=1}^{N} 2(y_{n}-2\eta) \cdot (-2)=0 \Rightarrow \eta=\frac{1}{2N} \sum_{n=1}^{N} y_{n} \\
+\alpha_{1}=\eta=\frac{1}{2N} \sum_{n=1}^{N} y_{n} \quad \therefore s_{n}=\alpha_{1} \cdot g_{1}(\bold x_{n}) = \frac{1}{N} \sum_{n=1}^{N} y_{n} 
+\end{flalign*}
+
+
+
+
+
+
+\section{} %Q6
+\begin{flalign*}
+\underset{\eta}{min} & \frac{1}{N} \sum_{n=1}^{N} \left [ (y_{n}-s_{n}-\eta \cdot g_{t}(\bold x_{n})) \right ]^{2} \\
+\frac{\partial E}{\partial \eta}&=0 : \frac{1}{N} \sum_{n=1}^{N} 2 \cdot \left [ y_{n} - s_{n}^{ \color{blue}(t-1)} - \eta \cdot g_{t}(\bold x_{n}) \right ]^{2} \cdot (-g_{t}(\bold x_{n}))=0 \\
+\Rightarrow \alpha_{t}&=\eta=\frac{\sum_{n=1}^{N} g_{t}(\bold x_{n}) \cdot (y_{n}-s_{n}^{(t-1)})}{\sum_{n=1}^{N}g_{t}^{2}(\bold x_{n})} \\
+\Rightarrow &\alpha_{t} \cdot \sum_{n=1}^{N}g_{t}^{2}(\bold x_{n}) + \sum_{n=1}^{N} g_{t}(\bold x_{n}) \cdot s_{n}^{(t-1)} = \sum_{n=1}^{N} g_{t}(\bold x_{n}) y_{n} \\
+\therefore \sum_{n=1}^{N} s_{n}^{(t)}&=\sum_{n=1}^{N} (s_{n}^{(t-1)}+\alpha_{t} \cdot  g_{t}(\bold x_{n})) \cdot g_{t}(\bold x_{n}) = \sum_{n=1}^{N} g_{t}(\bold x_{n}) \cdot y_{n}
+\end{flalign*}
+
+
+$\begin{cases}
+\frac{\partial \mathcal{L}}{\partial w_{1}}=2(w_{1}x_{1}+w_{0}-2x_{1}+x_{1}^2)\cdot x_{1}+2(w_{1}x_{2}+w_{0}-2x{2}+x_{2}^2) \cdot x_{2}=0 \\
+\frac{\partial \mathcal{L}}{\partial w_{2}}=2(w_{1}x_{1}+w_{0}-2x_{1}+x_{1}^2)+2(w_{1}x_{2}+w_{0}-2x{2}+x_{2}^2) =0
+\end{cases}$
+
+
+
+
+
+\section{} %Q7
+By the slides in lecture 11, p.17: $\displaystyle \underset{\eta}{min} \sum_{n=1}^{N} (y_{n} -s_{n} - \eta \cdot g_{t}(\bold x_{n}))^{2}$ could be viewed as the one variable linear regression on $\left \{ (g_{t}\text{-transformed inputs, residuals}) \right \}$。\\
+In the linear regression problem, we want to :
+\begin{flalign*}
+min \quad \sum_{n=1}^{N} \left \{ residual \right \}^{2} &= \sum_{n=1}^{N} (y_{n} - s_{n})^{2} \\
+&= \sum_{n=1}^{N} (y_{n}-s_{n} - \eta g_{t}(\bold x_{n}))^{2} \quad \text{if} \quad g_{t}(\bold x_{n})=0
+\end{flalign*}
+$\therefore$ If we impose gradient boosting with optimal $g_{t}(\bold x_{n})=0$, which means $\eta$ does not matter, gradient boosting is not appropriate for linear regression! The intuition is that although both GB and linear regression are attempting to solving the following problem:
+\begin{flalign*}
+\widehat{\beta} = \underset{\beta}{argmin} (y- \bold x \beta)^{T} (y- \bold x \beta)
+\end{flalign*}
+Linear regression just observe that we can solve it directly by finding the solution to the linear equation:
+\begin{flalign*}
+\bold x^{T} \bold x \beta = \bold x^{T} y
+\end{flalign*}
+This automatically gives us the best possible value of $\beta$ out of all possibilities.\\
+However, in GB, whether our weal classifier is a one variable or multi-variable regression, gives us a sequences of coefficients $\beta_{1}, \beta_{2}, \cdots$. The final model prediction will be the weighted form as the full linear regression:
+\begin{flalign*}
+\bold x \beta_{1} +\bold x \beta_{2} +\bold x \beta_{3} + \cdots + \bold x \beta_{n} = \bold x (\beta_{1} +\beta_{2} +\beta_{3} + \cdots +\beta_{n} )
+\end{flalign*}
+Each of these steps is chosen to further decrease the sum of squared errors, but we could find the minimum possible sum of squares within this functional form by just performing a full regression model to begin with.
+
+
+
+\section{} %Q8
+$\mathtt{OR}$：有一個對就對、全錯才算錯。\\
+$\therefore$ Let $w_{0}=d-1 \; , \; w_{1}=w_{2}= \cdots =w_{d}=1$, then:\\
+$\begin{cases}
+x_{1}, x_{2}, \cdots, x_{d} \; \text{均為${\color{blue} -1}$時，} g_{A}(\bold x)=sign(-1)=-1
+ \\
+x_{1}, x_{2}, \cdots, x_{d} \; \text{至少有一個為${\color{blue} -1}$時，} \sum_{i=1}^{d} w_{i}x_{i} \geq d-1+1-(d-1) \times 1 =1 \Rightarrow g_{A}(\bold x) = +1
+\end{cases}$
+
+
+
+
+
+
+
+\section{} %Q9
+\begin{flalign*}
+e_{n} &= \left [ y_{n}-NNet(\bold x_{n}) \right ]^{2} = (y_{n}-s_{1}^{(L)})^{2} = \left [ y_{n}-tanh(\bold x_{1}^{(L)}) \right ]^{2} =\left [ y_{n} - tanh \sum_{i=1}^{d^{(L-1)}} w_{il}^{(L)} x_{i}^{(L-1)} \right ]^{2} \\
+\frac{\partial e_{n}}{\partial w_{i1}^{(L)}}&=-2(y_{n}-tanh(\bold x_{1}^{(L)})) \cdot tanh'(\bold x_{1}^{L}) \cdot (x_{i}^{L-1}) \\
+\frac{\partial e_{n}}{\partial w_{ij}^{(l)}}&= \frac{\partial e_{n}}{\partial s_{j}^{(l)}} \cdot \frac{\partial s_{j}^{(l)}}{\partial w_{ij}^{(l)}} = \delta_{j}^{(l)} \cdot x_{i}^{(l-1)}, 1 \leq l < L \\
+\delta_{j}^{(j)}&= \sum_{K} \delta_{K}^{(l+1)} \cdot (w_{jK}^{(l+1)}) \cdot (tanh'(s_{j}^{(l)})), 1 \leq l < L\\
+ &w_{ij}^{(l)}=0, \text{由向前傳遞規則知：} x_{i}^{(l)}=0 (l \geq 1, i>0) \\
+ &\begin{cases}
+1 \leq l < L \text{時：} \delta_{j}^{(l)}=0, \text{則梯度} \displaystyle \frac{\partial e_{n}}{\partial w_{ij}^{(j)}}=0 \\
+l=L \text{時：} \begin{cases}
+\text{若} i>0 \text{，則梯度} \displaystyle \frac{\partial e_{n}}{\partial w_{ij}^{(l)}}=0\\
+\text{若} i=0 \text{，則注意} x_{1}^{(l)}=0 \; \displaystyle \frac{\partial e_{n}}{\partial w_{ij}^{(l)}} = -2y_{n}x_{0}^{(l-1)}
+\end{cases} 
+\end{cases} 
+\end{flalign*} 
+綜合以上：$y_{n} \neq 0$且$x_{0}^{l-1} \Leftrightarrow \frac{\partial e_{n}}{\partial w_{01}^{(L)}} \neq 0$
+
+
+
+
+\section{} %Q10
+Denotes that $\displaystyle q_{k}=\frac{e^{s_{k}}}{\sum_{k=1}^{K}e^{s_{k}}}$，$E=-\sum_{k=1}^{K}v_{k}\, ln(q_{k})$ \; and \; $\displaystyle \frac{\partial E}{\partial q_{k}}=\frac{-v_{k}}{q_{k}}$ \\
+Let index $i$ denotes the class we want among all possible class $K$, then:\\
+\begin{flalign*}
+\displaystyle \frac{\partial q_{k}}{\partial s_{\color{blue}i}}=\begin{cases}
+\frac{e^{s_{k}}}{\sum_{k=1}^{K}e^{s_{k}}} - (\frac{e^{s_{k}}}{\sum_{k=1}^{K}e^{s_{k}}})^{2} \; , \; i=k
+ \\
+\displaystyle -\frac{e^{s_{k}} \cdot s^{s_{\color{blue}i}}}{( \sum_{k=1}^{K} e^{s_{k}})^{2}}  \; , \; i \neq k
+\end{cases}
+=\begin{cases}
+q_{k} \cdot (1-q_{k}) \; , \; i=k
+ \\
+-q_{\color{blue}i} \cdot q_{k}  \; , \; i \neq k
+\end{cases} \\
+\end{flalign*}
+\begin{flalign*}
+\therefore \frac{\partial E}{\partial s_{k}}&=\sum_{k=1}^{K} \frac{\partial E}{\partial q_{i}} \cdot \frac{\partial q_{i}}{\partial s_{k}} = \frac{\partial E}{\partial q_{k}} \cdot \frac{\partial q_{k}}{\partial s_{k}} - \sum_{k \neq i} \frac{\partial E}{\partial q_{i}} \cdot \frac{\partial q_{i}}{s_{k}} \\
+&=v_{k} \cdot (1-q_{k}) + \sum{k \neq i} v_{i}q_{k}= -v_{k}+q_{k} \cdot \sum_{i} v_{i}= q_{k}-v_{k}
+\end{flalign*}
+
+
+
+
+
+
+
+
+\section{} %Q11
+$E_{in}(g_{1})=0.24$, $\alpha_{1}=0.576$
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.85]{Q11.png}
+\end{figure}\\
+
+\section{} %Q12
+由圖中可看出，$E_{in}(g_{t})$隨著$t$並無某一特定規律。直觀上，因為$g_{t}$只是針對上一輪的錯誤樣本較敏感，而對整體$E_{in}$的下降並無特化。
+
+\section{} %Q13
+$E_{in}(G_{t})=0$
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.85]{Q13.png}
+\end{figure}\\
+
+
+\newpage
+\section{} %Q14
+$U_{2}=0.85416$, $U_{T}=0.0054$
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.85]{Q14.png}
+\end{figure}\\
+
+
+
+\section{} %Q15
+$E_{out}(g_{t})=0.29$
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.85]{Q15.png}
+\end{figure}\\
+
+
+\section{} %Q16
+$E_{out}(G)=0.138$
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.85]{Q16.png}
+\end{figure}
+
+\section{} %Q17
+\begin{flalign*}
+U_{t+1}&=\sum_{n=1}^{N} u_{n}^{(t+1)}=\sum_{n=1}^{N} u_{n}^{(t)} \cdot \blacklozenge_{t} \cdot \left \| y_{n} \neq g_{t}(\bold x_{n}) \right \| + \sum_{n=1}^{N} u_{n}^{(t)} / \blacklozenge_{t} \cdot \left \| y_{n} = g_{t}(\bold x_{n}) \right \| \\
+&\text{(where $\blacklozenge_{t}=\sqrt{\frac{1-\epsilon_{t}}{\epsilon_{t}}}$)} \\
+&=\epsilon_{t} \cdot \blacklozenge_{t} \cdot \sum_{n=1}^{N} u_{n}^{(t)} + (1-\epsilon_{t}) / \blacklozenge_{t} \cdot \sum_{n=1}^{N} u_{n}^{(t)} \\
+&= U_{t} \cdot (\epsilon_{t} \cdot \blacklozenge_{t} + \frac{1-\epsilon_{t}}{\blacklozenge_{t}}) = 2 \sqrt{\epsilon_{t} \cdot (1-\epsilon_{t})} \cdot U_{t} \leq 2 \sqrt{\epsilon \cdot (1-\epsilon)} \cdot U_{t} ,\\
+&\forall \; \epsilon_{t} \leq \epsilon < \frac{1}{2}
+\end{flalign*}
+
+
+
+\section{} %Q18 
+\begin{flalign*}
+\widehat{E}_{ADA}^{T} &= \sum_{n=1}^{N} u_{n}^{(t)} \cdot \left [ (1-\epsilon_{t})e^{-n} + \epsilon_{t} e^{n} \right ] \\
+&= U_{T} \cdot \left [ (1-\epsilon_{t})e^{-n} + \epsilon_{t} e^{n} \right ] \\
+& \leq U_{T} \cdot 2 \sqrt{\epsilon \cdot (1-\epsilon)} \cdot \left [ (1-\epsilon_{t})e^{-n} + \epsilon_{t} e^{n} \right ] \\
+& \leq U_{T} \cdot exp\left \{ -2(\frac{1}{2}-\epsilon)^{2} \right \} \cdot \left [ (1-\epsilon_{t})e^{-n} + \epsilon_{t} e^{n} \right ] \\
+&= U_{1} \cdot exp\left \{ -2T(\frac{1}{2}-\epsilon)^{2} \right \} \cdot \left [ (1-\epsilon_{t})e^{-n} + \epsilon_{t} e^{n} \right ] \\
+&= exp\left \{ -2T(\frac{1}{2}-\epsilon)^{2} \right \} \cdot \left [ (1-\epsilon_{t})e^{-n} + \epsilon_{t} e^{n} \right ] 
+\end{flalign*}
+令$\gamma=\frac{1}{2}-\epsilon$，$\because \epsilon<\frac{1}{2} \quad \therefore \gamma >0$，$exp\left \{ -2T\gamma^{2} \right \}$ 之函數圖形如下：
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.3]{Q18.png}
+\end{figure}\\
+According to above figure, we know the value of $exp\left \{ -2T\gamma^{2} \right \}$ will diminish exponentially fast as $T$ iterations. $\therefore$ after $O(log \; N)$ iterations, $E_{in}(G_{T})$ goes to $0$.
+
+
+
+
+
+
+
+
+
+
+\medskip
+
+
+
+\end{document}

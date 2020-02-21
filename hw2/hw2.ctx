@@ -1,0 +1,274 @@
+\documentclass[fleqn,a4paper,12pt]{article}
+\usepackage{ stmaryrd }
+\usepackage{ dsfont }
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{bbding}
+\usepackage{pifont}
+\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{mathtools} 
+\newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}} %表格內強制換行好用
+\usepackage{textcomp}
+\renewcommand{\baselinestretch}{1.5} % 5 linespace
+%\usepackage{MinionPro} %聰敏葛格愛用的英文數字字體
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{graphicx,psfrag,booktabs}
+\geometry{left=1in,right=1in,top=1in,bottom=1in}
+\usepackage{graphicx}
+\usepackage{titlesec}
+\titlelabel{\thetitle.\quad} %修改section 編號的封包
+\usepackage{mathrsfs} %加入花體字母封包
+%\usepackage{indentfirst}%開頭空兩格的指令
+\usepackage[square,numbers]{natbib}
+\usepackage{xeCJK} %中文字體設定
+\setCJKmainfont{SimSun} %預設之中文字體
+\bibliographystyle{unsrtnat}
+\makeatletter
+\def\@xfootnote[#1]{%
+  \protected@xdef\@thefnmark{#1}%
+  \@footnotemark\@footnotetext}
+\makeatother
+
+\title{Home Work 2\\ Machine Learning Techniques}
+\author{R04323050 \\經濟碩三   \quad 陳伯駒}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{} %Q1
+Let $s=-y_{n}\left  [A(\bold w^{T}_{svm} \cdot\phi(\bold x_{n} + b_{svm})+B)  \right ] $, then
+\begin{flalign*}
+&\frac{\partial F}{\partial A} = \frac{1}{N} \displaystyle \sum_{n=1}^{N} \frac{1}{1+e^{s}} \cdot e^{s} \cdot \frac{\partial s}{\partial A} = \frac{1}{N} \sum_{n=1}^{N} \frac{e^{s}}{1+e^{s}} (-y_{n}) z_{n} = \frac{-1}{N} \sum_{n=1}^{N} y_{n} z_{n} p_{n} \\
+&\frac{\partial F}{\partial B} = \frac{1}{N} \sum_{n=1}^{N} \frac{1}{1+e^{s}} \cdot e^{s} \cdot \frac{\partial s}{\partial B} = \frac{1}{N} \sum_{n=1}^{N} \frac{e^{s}}{1+e^{s}} (-y_{n}) = \frac{-1}{N} \sum_{n-=1}^{N} y_{n} p_{n}
+\end{flalign*}
+$ \therefore \; \nabla F(A,B)=\begin{bmatrix}
+\displaystyle \frac{-1}{N} \sum_{n=1}^{N} y_{n} z_{n} p_{n}\\ 
+\displaystyle \frac{-1}{N} \sum_{n-=1}^{N} y_{n} p_{n}
+\end{bmatrix}$
+
+
+
+
+\section{} %Q2
+\begin{flalign*}
+&\frac{\partial^{2} F}{\partial A^{2}} = \frac{1}{N} \sum_{n=1}^{N} -y_{n} \cdot z_{n} \cdot \frac{\partial p_{n}}{\partial A} = \frac{1}{N} \sum_{n=1}^{N} -y_{n} z_{n} p_{n}(1-p_{n})(-y_{n}z_{n}) = \frac{1}{N} \sum_{n=1}^{N} z_{n}^{2} \cdot p_{n} \cdot (1-p_{n})  \\
+&\frac{\partial^{2} F}{\partial A \partial B} = \frac{1}{N} \sum_{n=1}^{N} -y_{n} \cdot z_{n} \cdot \frac{\partial p_{n}}{\partial B} = \frac{1}{N} \sum_{n=1}^{N} -y_{n}z_{n}p_{n}(1-p_{n})(-y_{n}) = \frac{1}{N} \sum_{n=1}^{N} z_{n} \cdot p_{n} \cdot (1-p_{n}) \\
+&\frac{\partial^{2} F}{\partial B \partial A} =  \frac{1}{N} \sum_{n=1}^{N} -y_{n} \cdot \frac{\partial p_{n}}{\partial A} = \frac{1}{N} \sum_{n=1}^{N} -y_{n}p_{n}(1-p_{n})(-y_{n}z_{n}) = \frac{1}{N} \sum_{n=1}^{N} z_{n} \cdot p_{n} \cdot (1-p_{n})  \\
+&\frac{\partial^{2} F}{\partial B^{2}} = \frac{1}{N} \sum_{n=1}^{N} -y_{n} \cdot \frac{\partial p_{n}}{\partial B} = \frac{1}{N} \sum_{n=1}^{N} -y_{n}p_{n}(1-p_{n})(-y_{n}) = \frac{1}{N} \sum_{n=1}^{N} p_{n} \cdot (1-p_{n})   \\
+\end{flalign*}
+$\therefore \; H(F) = \begin{bmatrix}
+\displaystyle \frac{1}{N} \sum_{n=1}^{N} z_{n}^{2} \cdot p_{n} \cdot (1-p_{n})  & \displaystyle  \frac{1}{N} \sum_{n=1}^{N} z_{n} \cdot p_{n} \cdot (1-p_{n})\\ 
+\displaystyle  \frac{1}{N} \sum_{n=1}^{N} z_{n} \cdot p_{n} \cdot (1-p_{n})  & \displaystyle  \frac{1}{N} \sum_{n=1}^{N} p_{n} \cdot (1-p_{n})  
+\end{bmatrix}$
+
+
+
+\section{} %Q3
+Now $K(\bold x, \bold x') = \text{exp}(-\gamma \cdot \left \| \bold x-\bold x' \right \|^2)$. By the exercise in slides in class 3, if $\bold x \neq \bold x'$, $K(\bold x, \bold x') = 0$ when $\gamma \longrightarrow \infty$.\\
+Hence, $\displaystyle \boldsymbol \beta = (\lambda \text{I} + K)^{-1} \bold y = \frac{1}{\lambda} \cdot \bold y$
+
+\section{} %Q4
+\begin{flalign*}
+e_{t} = E_{test}(g_{t}) &= \displaystyle \frac{1}{M} \sum_{m=1}^{M} \left [ (g_{t}(\tilde{x}_{m}))^{2} + \tilde{y}_{m}^{2} - 2 \cdot g_{t}(\tilde{x}_{m}) \cdot \tilde{y}_{m}  \right ] \\
+&= \frac{1}{M} \sum_{m=1}^{M} (g_{t}(\tilde{x}_{m}))^{2} + \frac{1}{M} \sum_{m=1}^{M} (g_{0}-\tilde{y}_{m})^{2} - \frac{2}{M} \sum_{m=1}^{M} g_{t}(\tilde{x}_{m}) \cdot \tilde{y}_{m} \\
+&= s_{t} + e_{0} - \frac{2}{M} \sum_{m=1}^{M} g_{t}(\tilde{x}_{m}) \cdot \tilde{y}_{m} 
+\end{flalign*}
+\begin{flalign*}
+&\Rightarrow \frac{2}{M} \sum_{m=1}^{M} g_{t}(\tilde{x}_{m}) \cdot \tilde{y}_{m} = s_{t} + e_{0} - e_{t} \\
+&\Rightarrow \frac{2}{M} \sum_{m=1}^{M} g_{t}(\tilde{x}_{m}) \cdot \tilde{y}_{m} = \frac{M}{2} \cdot (s_{t}+e_{0}-e_{t})
+\end{flalign*}
+
+\section{} %Q5
+\begin{itemize}
+ \item [step 1.] 從$\mathcal{D}_{train}$得到$g_{1}^{-}, g_{2}^{-} , ... , g_{T}^{-}$。
+ \item [step 2.] 從$\mathcal{D}_{val}$ 的$\left \{ (\bold x_{n}, y_{n}) \right \}$，轉換至$\bold z_{n} = \Phi^{-}(\bold x_{n})= (g_{1}^{-}(\bold x), g_{2}^{-}(\bold x), ... , g_{T}^{-}(\bold x))$
+ \item [step 3.] Linear Blending：
+ \begin{itemize}
+  \item [i.] 使用 $LinearModel(\bold z_{n}, y_{n})$，得到$\boldsymbol \alpha=(\alpha_{0}, \alpha_{1}, ... ,\alpha_{T})$。
+  \item [ii.] 重新使用所有資料$\mathcal{D}$，得到 $\Phi(\bold x) = (g_{1}(\bold x), g_{2}(\bold x), ... , g_{T}(\bold x))$。
+  \item [iii.] $G_{LINB}(\bold x) = \underset{\bold w= \bold x}{LinearModel}(\Phi(\bold x))$
+  
+  \end{itemize}
+
+\end{itemize}
+
+
+
+
+\section{} %Q6
+假設兩組訓練樣本為：$(x_{1}, 2x_{1}-x_{1}^{2}), (x_{2}, 2x_{2}-x_{2}^{2})$。\\
+The loss function would be: $\mathcal{L}=\left [ w_{1}x_{1}+w_{0}-(2x_{1}-x_{1}^{2}) \right ]^2 + \left [ w_{1}x_{2}+w_{0}-(2x_{2}-x_{2}^2) \right ]^2$ \\
+
+$\begin{cases}
+\frac{\partial \mathcal{L}}{\partial w_{1}}=2(w_{1}x_{1}+w_{0}-2x_{1}+x_{1}^2)\cdot x_{1}+2(w_{1}x_{2}+w_{0}-2x{2}+x_{2}^2) \cdot x_{2}=0 \\
+\frac{\partial \mathcal{L}}{\partial w_{2}}=2(w_{1}x_{1}+w_{0}-2x_{1}+x_{1}^2)+2(w_{1}x_{2}+w_{0}-2x{2}+x_{2}^2) =0
+\end{cases}$
+\newline
+$\Rightarrow
+\begin{cases}
+w_{1}^{*} = 2-x_{1} -x_{2}
+ \\
+w_{2}^{*} = x_{1}x_{2}
+\end{cases}$ \\
+\newline
+$\therefore \; \bar{g}(x)=E\left [ (2-x_{1}-x_{2}) \cdot x +x_{1}x_{2}\right ] = x+\frac{1}{4}$。 
+\footnote{$x_{1}, x_{2} \overset{i.i.d.}{\sim} U(0,1) \\ E(x_{1})=\frac{1}{2}, E(x_{2})=\frac{1}{2}, E(x_{1}x_{2})=E(x_{1}) \cdot E(x_{2})=\frac{1}{2} \cdot \frac{1}{2}= \frac{1}{4}$} 
+
+
+
+\section{} %Q7
+\begin{flalign*}
+&\displaystyle \epsilon_{t}= \displaystyle \frac{\sum_{n=1}^{N} \mu_{n}^{(t)} \llbracket y_{n} \neq g_{t}(x_{n}) \rrbracket}{\sum_{n=1}^{N} \mu_{n}^{(t)}} = \frac{\sum_{n=1}^{N} \frac{1}{N} \llbracket y_{n} \neq g_{t}(x_{n}) \rrbracket}{\sum_{n=1}^{N} \frac{1}{N}} = \frac{\sum_{n=1}^{N} \llbracket y_{n} \neq g_{t}(x_{n}) \rrbracket}{N}=0.13 \\
+\\
+&\therefore \; \frac{\mu_{+}^{2}}{\mu_{-}^{2}} = \frac{\blacklozenge_{t}^{-1}}{\blacklozenge_{t}} = \frac{\epsilon_{t}}{1-\epsilon_{t}} = \frac{0.13}{0.87} = \frac{13}{87} \; \text{(where $\blacklozenge_{t}=\sqrt{\frac{1-\epsilon_{t}}{\epsilon_{t}}}$)}
+\end{flalign*}
+
+
+
+
+
+
+\section{} %Q8
+通過不同維度、不同的$\theta$取在兩點之間及不同的方向，有決策樹共$2d \times (M-0)=2dM$種。但仍須考量有全正、全負兩種情形，$\therefore \;$ 總共有$2dM+2=2 \times 2 \times 5 +2=22$種。
+
+
+
+
+
+
+
+\section{} %Q9
+\begin{flalign*}
+K_{ds}&= \displaystyle \sum_{j=1}^{\left |  \mathcal{G}  \right |} sign(x_{ij}-\theta_{j}) \cdot sign(x'_{ij}-\theta_{j})\\
+&= sign(x_{i1}-\theta_{1}) \cdot sign(x'_{i1}-\theta_{1})+sign(x_{i2}-\theta_{2}) \cdot sign(x'_{i2}-\theta_{2}) + \cdots \\ &+ sign(x_{i\left |  \mathcal{G}  \right |}-\theta_{\left |  \mathcal{G}  \right |}) \cdot sign(x'_{i\left |  \mathcal{G}  \right |}-\theta_{\left |  \mathcal{G}  \right |})
+\end{flalign*} 
+上式的項數$\left |  \mathcal{G}  \right |=2dM+2$，包含了所有可能的情況$(s,i,\theta)$，現在我們進一步來檢查有多少為$+1$項、有多少為$-1$項：
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.45]{Q9.png}
+\end{figure}\\
+如上圖，假設$x_{1}, x_{2}$之間存在$a$個整數，則總共有$2 \times (a+1)$種hypothesis使得分類結果乘積為$-1$。對於題目給定的$\bold x, \bold x'$為integers，因此總共包含的分類結果乘積為$-1$的項數為：$2 \cdot \left \| \bold x- \bold x' \right \|$ \\
+$\therefore \;$分類結果乘積為$+1$的項數為：$2dM+2-2 \times \left \| \bold x- \bold x' \right \|$ 
+\begin{flalign*}
+K_{ds}&= (+1) \times \left [ 2dM+2-2 \times \left \| \bold x- \bold x' \right \| \right ] + (-1) \times \left [ 2 \times \left \| \bold x- \bold x' \right \| \right ] \\
+&= 2dM+2 - 4 \times \left \| \bold x- \bold x' \right \|
+\end{flalign*} 
+
+
+
+\section{} %Q10
+Suppose $N$ be the numbers of inputs, and we let $q_{t}=
+\begin{cases}
+1 \quad ,\text{if} \quad t \leq N
+ \\ 0 \quad , \text{if} \quad t > N
+\end{cases} $ 
+, then:
+\begin{flalign*}
+\Phi_{hi}(\bold x)= ( \underbrace{1,1, \cdots , 1}_{x_{1}\text{個}} , \underbrace{0,0, \cdots , 0}_{N-x_{1}\text{個}} , \underbrace{1,1, \cdots , 1}_{x_{2}\text{個}} , \underbrace{0,0, \cdots , 0}_{N-x_{2}\text{個}} , \cdots , \underbrace{1,1, \cdots , 1}_{x_{d}\text{個}} , \underbrace{0,0, \cdots , 0}_{N-x_{d}\text{個}})
+\end{flalign*} 
+Each bin value $x_{i}$ is encoded with $N$ bits such that $x_{i}$ first bits are equal to $1$ and $N-x_{i}$ bits are equal to $0$. If we consider the dot product on this binary representation between $\Phi_{hi}(\bold x)$ and $\Phi_{hi}(\bold x')$, we obtain for each bin than $\min\left \{ x_{i}, x'_{i} \right \}$ components products equal to $1$ and $N-\min\left \{ x_{i}, x'_{i} \right \}$ equal to $0$.\\
+$\therefore \;$ we cna write $K_{hi}(\bold x, \bold x')=\displaystyle \sum_{i=1}^{d}\min \left \{ x_{i}, x'_{i} \right \}=\Phi_{hi}(\bold x) \cdot \Phi_{hi}(\bold x')$
+
+
+
+
+
+\section{} %Q11
+$\gamma=32, \lambda=0.001 \Rightarrow $ Ein$= 0.0$, Eout$=0.45$\\
+$\gamma=32, \lambda=1 \Rightarrow $ Ein$= 0.0$, Eout$=0.45$\\
+$\gamma=32, \lambda=1000 \Rightarrow $ Ein$= 0.0$, Eout$=0.45$\\
+$\gamma=2, \lambda=0.001 \Rightarrow $ Ein$= 0.0$, Eout$=0.44$\\
+$\gamma=2, \lambda=1 \Rightarrow $ Ein$= 0.0$, Eout$=0.44$\\
+$\gamma=2, \lambda=1000 \Rightarrow $ Ein$= 0.0$, Eout$=0.44$\\
+$\gamma=0.125, \lambda=0.001 \Rightarrow $ Ein$= 0.0$, Eout$=0.46$\\
+$\gamma=0.125, \lambda=1 \Rightarrow $ Ein$= 0.03$, Eout$=0.45$\\
+$\gamma=0.125, \lambda=1000 \Rightarrow $ Ein$= 0.2425$, Eout$=0.39$\\
+$\therefore$ the minimum Ein is $0.0$, the combination expect $(\gamma=0.125, \lambda=1)$ and $(\gamma=0.125, \lambda=1000)$ can achieve the value.
+
+\section{} %Q12
+According to Q11, the combination $(\gamma=0.125, \lambda=1000)$ can minimize Ein$=0.39$.
+
+\section{} %Q13
+$\lambda=0.01 \Rightarrow $ Ein$= 0.3175$, Eout$=0.36$\\
+$\lambda=0.1 \Rightarrow $ Ein$= 0.3175$, Eout$=0.36$\\
+$\lambda=1 \Rightarrow $ Ein$= 0.3175$, Eout$=0.36$\\
+$\lambda=10 \Rightarrow $ Ein$= 0.32$, Eout$=0.37$\\
+$\lambda=100 \Rightarrow $ Ein$= 0.3125$, Eout$=0.39$\\
+$\therefore \lambda=100$時可以讓$E_{in}=0.3125$達到最小
+
+\section{} %Q14
+According to Q13, $\lambda=0.01, 0.1, 1$可以同時地讓$E_{out}=0$達到最小。
+
+\section{} %Q15
+$\lambda=0.01 \Rightarrow $ Ein$= 0.3175$, Eout$=0.36$\\
+$\lambda=0.1 \Rightarrow $ Ein$= 0.32$, Eout$=0.36$\\
+$\lambda=1 \Rightarrow $ Ein$= 0.32$, Eout$=0.36$\\
+$\lambda=10 \Rightarrow $ Ein$= 0.322$, Eout$=0.36$\\
+$\lambda=100 \Rightarrow $ Ein$= 0.3225$, Eout$=0.37$\\
+$\therefore \lambda=0.01$時可以讓$E_{in}=0.3175$達到最小，但使用bagging的方法整體而言的$E_{in}$會比Q13 and Q14的大一些。
+
+\section{} %Q16
+According to Q13, $\lambda=0.01, 0.1, 1,10$同時時可以讓$E_{out}=0.36$達到最小，經過bagging的過程可以讓$E_{out}$預測率平均表現較穩定、值也較低，其結果也符合我們所預期，bagging的方式可以有效地緩和overfitting的問題。
+
+\section{} %Q17
+By the slides in class 3, we know:
+\begin{flalign*}
+ g_{svm}(\bold x)&= sign(\displaystyle \sum_{\text{SV indices n}} \alpha_{n} y_{n} K(\bold x_{n}, \bold x) +b) \\ &= c \\& \text{$s$ denotes as the support vector.}
+\end{flalign*} 
+Now we are using $K_{2}=K_{1}(\bold x, \bold x') + \kappa$. To make the result same, we then let $\alpha'_{n}=\alpha_{n}$ and $C'=C$, we can solve the dual problem based on $K_{2}, \alpha_{n}'$ and $C'$:
+\begin{flalign*}
+\displaystyle \min_{\boldsymbol \alpha}\quad \frac{1}{2} \sum_{n=1}^{N}\sum_{m=1}^{N} \alpha'_{n}\alpha'_{m}y_{n}y_{m} K_{2} - \sum_{n=1}^{N}\alpha'_{n} 
+\end{flalign*}
+\begin{flalign*}
+\text{subject to} &\quad \sum_{n=1}^{N}\alpha'_{n}y_{n}=0\\
+                         &\quad 0 \leq \alpha'_{n} \leq C', \; \text{for} \; n=1,2,\dots N
+\end{flalign*}
+the we know the optimal separating hyperplane will be:
+\begin{flalign*}
+ g_{svm}(\bold x)&= sign(\displaystyle \sum_{\text{SV}} \alpha'_{n} y_{n} K_{2}(\bold x_{n}, \bold x) +b) \\ 
+ &= sign(\displaystyle \sum_{\text{SV}} \alpha'_{n} y_{n} K_{2}(\bold x_{n}, \bold x) + y_{s} -\sum_{\text{SV}} \alpha'_{n} y_{n} K_{2}(\bold x_{n}, \bold x_{s})) \\
+&= sign(\displaystyle \sum_{\text{SV}} \alpha_{n} y_{n} (K_{1}(\bold x_{n}, \bold x) + \kappa ) + y_{s} -\sum_{\text{SV}} \alpha_{n} y_{n} (K_{1}(\bold x_{n}, \bold x_{s})+\kappa)   ) \\
+ &= sign(\displaystyle \sum_{\text{SV}} \alpha_{n} y_{n} K_{1}(\bold x_{n}, \bold x) + y_{s} -\sum_{\text{SV}} \alpha_{n} y_{n} K_{1}(\bold x_{n}, \bold x_{s})) \\
+ & \text{, which is equivalent to the solution of original problem under optimal $\boldsymbol \alpha$}
+\end{flalign*} 
+
+
+\section{} %Q18 
+Similar to the previous problem, now we are using $K_{3}(\bold x, \bold x')=K_{1}(\bold x, \bold x') + r(\bold x) + r(\bold x')$.
+We still let $\boldsymbol \alpha''=\boldsymbol \alpha$ and $C''=C$, we can solve the dual problem based on $K_{3}, \boldsymbol \alpha''=\boldsymbol \alpha$ and $C''=C$：
+\begin{flalign*}
+\displaystyle \min_{\boldsymbol \alpha}\quad \frac{1}{2} \sum_{n=1}^{N}\sum_{m=1}^{N} \alpha''_{n}\alpha''_{m}y_{n}y_{m} K_{3} - \sum_{n=1}^{N}\alpha''_{n} 
+\end{flalign*}
+\begin{flalign*}
+\text{subject to} &\quad \sum_{n=1}^{N}\alpha''_{n}y_{n}=0\\
+                         &\quad 0 \leq \alpha''_{n} \leq C'', \; \text{for} \; n=1,2,\dots N
+\end{flalign*}
+the we know the optimal separating hyperplane will be:
+\begin{flalign*}
+ g_{svm}(\bold x)&= sign(\displaystyle \sum_{\text{SV}} \alpha''_{n} y_{n} K_{3}(\bold x_{n}, \bold x) +b) \\ 
+  &= sign [ \displaystyle \sum_{\text{SV}} \alpha''_{n} y_{n} K_{3}(\bold x_{n}, \bold x) + y_{s} -\sum_{\text{SV}} \alpha''_{n} y_{n} K_{3}(\bold x_{n}, \bold x_{s})) \\
+ &= sign(\displaystyle \sum_{\text{SV}} \alpha_{n} y_{n} (K_{1}(\bold x_{n}, \bold x) + r(\bold x) + r(\bold x') ) + y_{s} \\
+ &-\sum_{\text{SV}} \alpha_{n} y_{n} (K_{1}(\bold x_{n}, \bold x_{s})+ r(\bold x) + r(\bold x'))   ]\\
+ &= sign [ \displaystyle \sum_{\text{SV}} \alpha_{n} y_{n} K_{1}(\bold x_{n}, \bold x) + y_{s} -\sum_{\text{SV}} \alpha_{n} y_{n} K_{1}(\bold x_{n}, \bold x_{s}) \\
+ &+ \underbrace{ \displaystyle \sum_{\text{SV}} \alpha_{n} y_{n} (r(\bold x)-r(\bold x_{s}))}_{=[r(\bold x)-r(\bold x_{s})] \cdot \displaystyle \sum_{\text{SV}} \alpha_{n} y_{n} = [r(\bold x)-r(\bold x_{s})] \cdot 0 = 0} 
+] \\
+ &= sign(\displaystyle \sum_{\text{SV}} \alpha_{n} y_{n} K_{1}(\bold x_{n}, \bold x) + y_{s} -\sum_{\text{SV}} \alpha_{n} y_{n} K_{1}(\bold x_{n}, \bold x_{s})) \\
+ & \text{, which is equivalent to the solution of original problem under optimal $\boldsymbol \alpha$}
+\end{flalign*} 
+
+
+
+
+
+
+
+
+
+\medskip
+
+
+
+\end{document}
